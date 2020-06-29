@@ -13,14 +13,22 @@ const eachStudent = pageList.children;
 
 
 
-// create a div for pagination
-const divPagination = document.createElement('div')
-divPagination.className = 'pagination';
-// create ul
-const ul = document.createElement('ul')
+
+const divPagination = document.querySelector('pagination')
+
+const ul = document.querySelector('ul')
 //append div pagination
 const appendPagination = document.querySelector('.page')
 appendPagination.appendChild(divPagination);
+
+
+// const divPagination = document.createElement('div')
+// divPagination.className = 'pagination';
+// // create ul
+// const ul = document.createElement('ul')
+// //append div pagination
+// const appendPagination = document.querySelector('.page')
+// appendPagination.appendChild(divPagination);
 
 
 
