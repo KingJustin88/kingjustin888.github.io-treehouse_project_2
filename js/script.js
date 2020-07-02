@@ -1,16 +1,30 @@
 
-//Global variables
+
+/////////////////////////////////////
+/////////  PAGINATION //////////////
+///////////////////////////////////
+
+const pageList = document.querySelector('ul');
+const eachStudent = pageList.children;
+
+// loops through all list items and display 10 items per page
+
+function pages(pageList, page){
+    for(let i = 0; i < pageList.length; i +=1) {
+        let firstPage = page - 9;
+        let lastPage = page;
+        if ( i >= firstPage  && i <= lastPage) {
+            pageList[i].style.display= 'block';
+        } else {
+            pageList[i].style.display = 'none';   
+        }  
+    }
+}
+
 // grabbing students throught querySelector in the student's list
 const students = document.querySelector('.student-list').children;
 // number of pages
 const numOfPages = Math.ceil(students.length / 10);
-// student search
-const searchDiv = document.querySelector('.student-search');
-const noResultDiv = document.querySelector('.no-result');
-const pageList = document.querySelector('ul');
-const eachStudent = pageList.children;
-
-
 
 
 // create a div for pagination
@@ -23,22 +37,8 @@ const appendPagination = document.querySelector('.page')
 appendPagination.appendChild(divPagination);
 
 
-
-
-// loops through all list items and display 10 items per page
-function pages(pageList, page){
-    for(let i = 0; i < pageList.length; i +=1) {
-        let firstPage = page - 9;
-        let lastPage = page;
-        if ( i >= firstPage  && i <= lastPage) {
-            pageList[i].style.display= 'block';
-        } else {
-            pageList[i].style.display = 'none';
-        }
-    }
-}
-
 // create the page and append it to the pagination
+
 function generatePageLinks(){
     for(let i = 1; i <= numOfPages; i += 1) {
         //create li
@@ -55,22 +55,41 @@ function generatePageLinks(){
          });
          li.appendChild(a);
          ul.appendChild(li);
+         
    } 
    divPagination.appendChild(ul);
+   
 }
 
-// Function to display search box dynamically
+
+
+////////////////////////////////////
+////////    SEARCH BOX      ////////
+////////////////////////////////////
+
+
+// creating divs and classNames for search and no search
+let searchDiv = document.createElement('div');
+searchDiv.className = 'student-search';
+const appendSearch = document.querySelector('.page-header')
 let searchInput = document.createElement('input');
 let searchButton = document.createElement('button');
+let noResultClass = document.createElement('div')
+noResultClass.className = 'no-result';
+
+// Function to display search box dynamically
 function showSearch() {
+    searchDiv.appendChild(noResultClass);
+    appendSearch.appendChild(searchDiv);
     searchInput.placeholder = 'Search for students...';
     searchButton.textContent = 'Search';
     searchDiv.appendChild(searchInput);
-    searchDiv.appendChild(searchButton);
+    searchDiv.appendChild(searchButton);  
 }
 
 // Event listener for search box functionality
 // Array to hold number of hidden students
+
 const searchResults = [];
 searchButton.addEventListener('click', () => {
     let filter = searchInput.value.toLowerCase();
@@ -84,17 +103,26 @@ searchButton.addEventListener('click', () => {
             searchResults.push(i);
         }   
     }
+
     // If all students are hidden, a 'no results' message is displayed
+    let noResults = document.createElement('div');
+    noResults.className = 'no-result';
+    const appendNoResults = document.querySelector('.no-result');
+
     if (searchResults.length === eachStudent.length) {
-        noResultDiv.innerHTML = '<h1>No Results!</h1>';
-        noResultDiv.style.color = 'red';
-        noResultDiv.style.textAlign = "center";
-        noResultDiv.style.fontWeight = "bold";
-        
+        appendNoResults.appendChild(noResults);
+        appendNoResults.innerHTML = '<h1>Sorry, No Results!</h1>';
+        appendNoResults.style.color = 'red';
+        appendNoResults.style.textAlign = "center";
+        appendNoResults.style.fontWeight = "bold";   
     } else {
-        noResultDiv.innerHTML = ''; 
+        appendNoResults.innerHTML = '';
     }
+    
 });
+   
+
+////// Function calls //////
 
 // display pages
 pages(students, 10);
@@ -104,4 +132,5 @@ generatePageLinks();
 
 // search bar
 showSearch();
+
 
